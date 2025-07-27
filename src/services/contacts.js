@@ -1,4 +1,3 @@
-import { raw } from "express";
 import { ContactsCollection } from "../db/models/contacts.js";
 
 export const getAllContacts = async () => {
