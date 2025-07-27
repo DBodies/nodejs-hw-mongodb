@@ -1,9 +1,9 @@
 import express from 'express';
 import cors from 'cors';
-import pino from 'pino-http';
 import dotenv from 'dotenv';
 import { getEnvVar } from './utils/getEnvVar.js';
 import { getAllContacts, getContactsById } from './services/contacts.js';
+
 
 dotenv.config();
 
@@ -14,13 +14,7 @@ export const setupServer = () => {
 
     app.use(express.json());
     app.use(cors());
-    app.use(
-        pino({
-            transport: {
-                target: 'pino-pretty',
-            },
-        }),
-    );
+
 
     app.get('/contacts', async (req, res) => {
         const contacts = await getAllContacts();
