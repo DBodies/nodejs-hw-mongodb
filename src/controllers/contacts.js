@@ -7,14 +7,14 @@ import { parseFilterParams } from "../utils/parsFilterParams.js";
 export const getContactsController = async (req, res, next) => {
     const { page, perPage } = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query);
-    const {name, email, phone} = req.body
     const filter = parseFilterParams(req.query);
     const contacts = await getAllContacts({
         page,
         perPage,
         sortBy,
         sortOrder,
-        filter
+        filter,
+         userId: req.user._id
     });
     res.json({
         status: 200,
@@ -25,7 +25,7 @@ export const getContactsController = async (req, res, next) => {
 
 export const getContactsByIdController = async (req, res) => {
     const { contactsId } = req.params;
-    const contacts = await getContactsById(contactsId);
+    const contacts = await getContactsById(contactsId, req.user._id);
 
     if (!contacts) {
         throw createHttpError(404, 'Contact not found!');
@@ -37,7 +37,8 @@ export const getContactsByIdController = async (req, res) => {
     });
 };
 export const createStudentController = async (req, res) => {
-    const student = await createContacts(req.body);
+    const payload = { ...req.body, userId: req.user._id };
+    const student = await createContacts(payload);
     res.status(201).json({
 		status: 201,
 		message: "Successfully created a contact!",
@@ -46,7 +47,7 @@ export const createStudentController = async (req, res) => {
 };
 export const pathContactsController = async (req, res, next) => {
     const { contactsId } = req.params;
-    const result = await updateContacts(contactsId, req.body);
+    const result = await updateContacts(contactsId, req.body, req.user._id);
 
     if (!result) {
         next(createHttpError(404, 'Student not found'));
@@ -59,7 +60,7 @@ export const pathContactsController = async (req, res, next) => {
 };
 export const deleteContactController = async (req, res, next) => {
     const { contactId } = req.params;
-    const contact = await deleteContacts(contactId);
+    const contact = await deleteContacts(contactId, req.user._id);
 
     if (!contact) {
         return next(createHttpError(404, "Contact not found"));
