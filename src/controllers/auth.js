@@ -1,6 +1,5 @@
-import { FIFTEEN_MINUTES, THIRTY_DAY } from "../constants";
-import { logoutUser, refreshUser, registerUser } from "../services/auth";
-import { loginUser } from "../validation/auth";
+import { FIFTEEN_MINUTES, THIRTY_DAY } from "../constants/index.js";
+import { logoutUser, refreshUser, registerUser, loginUser } from "../services/auth.js";
 
 
 export const registerUserController = async (req, res) => {

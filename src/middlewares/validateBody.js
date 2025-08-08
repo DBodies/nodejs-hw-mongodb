@@ -1,4 +1,5 @@
 import createHttpError from "http-errors";
+console.log('validateBody loaded');
 
 export const validateBody = (schema) => async (req, res,
     next) => {

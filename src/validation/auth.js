@@ -19,11 +19,12 @@ export const registerUserSchema = Joi.object(
     }
 );
 
-export const loginUserSchema = Joi.object({
-          name: Joi.string().required().messages({
-        'string.base': 'Username should be a string',
-        }),
+console.log('auth validation loaded');
+export const loginUserSchema = Joi.object(
+    {
         email: Joi.string().required().email().messages({
         'string.email': `"email" must be a valid email. Example: "example@gmail.com"`
         }),
-});
+        password: Joi.string().required().min(3)
+    }
+);
