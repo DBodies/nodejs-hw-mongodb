@@ -33,6 +33,18 @@ export const loginUserController = async (req, res) => {
     });
 };
 
+const setupSession = (res, session) => {
+    res.cookie('refreshToken', session.refreshToken, {
+        httpOnly: true,
+        expires: new Date(Date.now() + THIRTY_DAY)
+    });
+    res.cookie('sessionId', session._id, {
+        httpOnly: true,
+        expires: new Date(Date.now() + THIRTY_DAY)
+    });
+};
+
+
 export const refreshUserSessionController = async (req, res) => {
     const session = await refreshUser({
         sessionId: req.cookies.sessionId,
@@ -58,13 +70,3 @@ export const logoutUserController = async (req, res) => {
     res.status(204).send();
 };
 
-const setupSession = (res, session) => {
-    res.cookie('refreshToken', session.refreshToken, {
-        httpOnly: true,
-        expires: new Date(Date.now() + THIRTY_DAY)
-    });
-    res.cookie('sessionId', session._id, {
-        httpOnly: true,
-        expires: new Date(Date.now() + THIRTY_DAY)
-    });
-};

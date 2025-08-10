@@ -58,9 +58,9 @@ export const updateContacts = async (contactsId, payload, userId, options = {}) 
     return rawResult.value
         ;
 };
-export const deleteContacts = async (contactId, userId) => {
+export const deleteContacts = async (contactsId, userId) => {
     const contacts = await ContactsCollection.findOneAndDelete({
-        _id: contactId,
+        _id: contactsId,
         userId
     });
     return contacts;

@@ -35,7 +35,7 @@ router.patch('/:contactsId',
     ctrlWrapper(pathContactsController)
 );
 
-router.delete('/:contactId',
+router.delete('/:contactsId',
     isValidId,
     ctrlWrapper(deleteContactController)
 );
