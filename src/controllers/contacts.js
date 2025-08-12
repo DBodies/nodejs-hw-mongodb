@@ -3,6 +3,9 @@ import createHttpError from "http-errors";
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
 import { parseFilterParams } from "../utils/parsFilterParams.js";
+import { getEnvVar } from "../utils/getEnvVar.js";
+import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js";
+import { saveFileToUploadDir } from "../utils/saveFileToUploadDir.js";
 
 export const getContactsController = async (req, res, next) => {
     const { page, perPage } = parsePaginationParams(req.query);
@@ -47,7 +50,20 @@ export const createStudentController = async (req, res) => {
 };
 export const pathContactsController = async (req, res, next) => {
     const { contactsId } = req.params;
-    const result = await updateContacts(contactsId, req.body, req.user._id);
+    const photo = req.file;
+    let photoUrl;
+    if (photo) {
+        if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+            photoUrl = await saveFileToCloudinary(photo);
+        } else {
+            photoUrl = await saveFileToUploadDir(photo);
+        }
+    }
+
+
+    const result = await updateContacts(contactsId, req.body, req.user._id, {
+        photo:photoUrl
+    });
 
     if (!result) {
         next(createHttpError(404, 'Student not found'));

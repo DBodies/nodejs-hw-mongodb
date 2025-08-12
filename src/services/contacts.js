@@ -44,14 +44,13 @@ export const createContacts = async (payload) => {
     const student = await ContactsCollection.create(payload);
     return student;
 };
-export const updateContacts = async (contactsId, payload, userId, options = {}) => {
+export const updateContacts = async (contactsId, payload, userId) => {
     const rawResult = await ContactsCollection.findOneAndUpdate(
         { _id: contactsId, userId },
         payload,
         {
             new: true,
             includeResultMetadata: true,
-            ...options
       }
     );
     if (!rawResult || !rawResult.value) return null;
