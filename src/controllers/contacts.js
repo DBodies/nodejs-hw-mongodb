@@ -40,7 +40,20 @@ export const getContactsByIdController = async (req, res) => {
     });
 };
 export const createStudentController = async (req, res) => {
-    const payload = { ...req.body, userId: req.user._id };
+    let photoUrl;
+    if (req.file) {
+        if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
+            photoUrl = await saveFileToCloudinary(req.file);
+        } else {
+            photoUrl = await saveFileToUploadDir(req.file);
+        }
+    }
+    const payload = {
+        ...req.body,
+        userId: req.user._id,
+        photo: photoUrl || null
+    };
+
     const student = await createContacts(payload);
     res.status(201).json({
 		status: 201,
@@ -50,20 +63,24 @@ export const createStudentController = async (req, res) => {
 };
 export const pathContactsController = async (req, res, next) => {
     const { contactsId } = req.params;
-    const photo = req.file;
     let photoUrl;
-    if (photo) {
+    if (req.file) {
         if (getEnvVar('ENABLE_CLOUDINARY') === 'true') {
-            photoUrl = await saveFileToCloudinary(photo);
+            photoUrl = await saveFileToCloudinary(req.file);
         } else {
-            photoUrl = await saveFileToUploadDir(photo);
+            photoUrl = await saveFileToUploadDir(req.file);
         }
     }
+    const updateData = {
+        ...req.body,
+        ...(photoUrl && { photo: photoUrl })
+    };
 
-
-    const result = await updateContacts(contactsId, req.body, req.user._id, {
-        photo:photoUrl
-    });
+    const result = await updateContacts(
+        contactsId,
+       updateData,
+        req.user._id
+    );
 
     if (!result) {
         next(createHttpError(404, 'Student not found'));
