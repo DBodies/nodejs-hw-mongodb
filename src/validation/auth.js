@@ -8,7 +8,7 @@ export const registerUserSchema = Joi.object(
         'string.max': 'Username should have at most {#limit} characters',
         'any.required': 'Username is required',
         }),
-        email: Joi.string().email().min(3).max(20).required().messages({
+        email: Joi.string().email().min(3).max(30).required().messages({
         'string.email': `"email" must be a valid email. Example: "example@gmail.com"`,
         'string.min': `"email" must be at least {#limit} characters`,
         'string.max': `"email" must be at most {#limit} characters`,
@@ -41,3 +41,7 @@ export const resetPasswordSchema = Joi.object(
   token: Joi.string().required(),
     }
 );
+
+export const loginWithGoogleOAuthSchema = Joi.object({
+  code: Joi.string().required(),
+});
