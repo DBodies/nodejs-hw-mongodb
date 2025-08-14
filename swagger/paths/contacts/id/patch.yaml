@@ -22,24 +22,17 @@ requestBody:
           name:
             type: string
             example: 'John Doe'
-          age:
-            type: number
-            example: 14
-          gender:
+          phoneNumber:
             type: string
-            enum: ['male', 'female', 'other']
-          avgMark:
-            type: number
-            example: 8.5
-          onDuty:
+            example: "+370563876351"
+          email:
+            type: string
+            example: "apachegender@gmail.com"
+          isFavourite:
             type: boolean
-            example: true
-          parentId:
+          contactType:
             type: string
-            example: 65e4decdd286b30065d54af9
-          photo:
-            type: string
-            format: binary
+            example: ["work, 'personal", 'home']
 responses:
   '200':
     description: Successfully updated contact

@@ -1,42 +1,27 @@
-# swagger/components/schemas/student.yaml
-
 type: object
 required:
-  - _id
   - name
-  - age
-  - gender
-  - avgMark
-  - onDuty
+  - phoneNumber
+  - contactType
 properties:
-  _id:
-    description: "Contact's id"
-    type: string
-    example: 65e4decdd286b30065d54af9
   name:
     description: "Contact's name"
     type: string
     example: 'John Doe'
-  age:
-    description: "Contact's age"
-    type: number
-    example: 12
-  gender:
-    description: "Contact's age"
+  phoneNumber:
+    description: "Phone number"
     type: string
-    enum: ['male', 'female', 'other']
-  avgMark:
-    description: "Contact's average mark. Should be between 1 and 12"
-    type: number
-    example: 9.7
-  onDuty:
-    description: 'Whether is student on duty'
+    example: "+380558471638"
+  email:
+      description: "Contacts email"
+      type: string
+      example: "invoker@gmail.com"
+  isFavourite:
     type: boolean
-    example: false
-  parentId:
-    description: "Contact's parent id"
+  contactType:
+    description: "Type of contacts messenger"
     type: string
-    example: 65e4decdd286b30065d54af9
+    enum: ['work', 'home', 'personal']
   photo:
     description: "Link to contact's photo"
     type: string

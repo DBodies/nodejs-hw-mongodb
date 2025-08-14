@@ -14,7 +14,7 @@
       "url": "http://localhost:4561"
     },
     {
-      "url": "https://example.com/api/v1"
+      "url": "https://nodejs-hw-mongodb-7566.onrender.com"
     }
   ],
   "tags": [
@@ -77,51 +77,6 @@
                 "desc"
               ],
               "example": "asc"
-            }
-          },
-          {
-            "in": "query",
-            "name": "minAvgMark",
-            "schema": {
-              "type": "number",
-              "example": 4
-            }
-          },
-          {
-            "in": "query",
-            "name": "maxAvgMark",
-            "schema": {
-              "type": "number",
-              "example": 10
-            }
-          },
-          {
-            "in": "query",
-            "name": "minAge",
-            "schema": {
-              "type": "number",
-              "example": 10
-            }
-          },
-          {
-            "in": "query",
-            "name": "maxAge",
-            "schema": {
-              "type": "number",
-              "example": 16
-            }
-          },
-          {
-            "in": "query",
-            "name": "contactType",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "work",
-                "home",
-                "personal"
-              ],
-              "example": "work"
             }
           }
         ],
@@ -219,10 +174,8 @@
                 "type": "object",
                 "required": [
                   "name",
-                  "age",
-                  "gender",
-                  "avgMark",
-                  "parentId"
+                  "phoneNumber",
+                  "contactType"
                 ],
                 "properties": {
                   "name": {
@@ -230,39 +183,29 @@
                     "type": "string",
                     "example": "John Doe"
                   },
-                  "age": {
-                    "description": "Contact's age",
-                    "type": "number",
-                    "example": 12
-                  },
-                  "gender": {
-                    "description": "Contact's age",
+                  "phoneNumber": {
+                    "description": "Phone number",
                     "type": "string",
-                    "enum": [
-                      "male",
-                      "female",
-                      "other"
-                    ]
+                    "example": 380551783645
                   },
-                  "avgMark": {
-                    "description": "Contact's average mark. Should be between 1 and 12",
-                    "type": "number",
-                    "example": 9.7
+                  "email": {
+                    "description": "Contact email",
+                    "type": "string",
+                    "example": "developer@gmail.com"
                   },
-                  "onDuty": {
-                    "description": "Whether is contact on duty",
-                    "type": "boolean",
-                    "example": false
+                  "isFavourite": {
+                    "description": "Favorite contact true or false",
+                    "type": "boolean"
+                  },
+                  "contactType": {
+                    "description": "Type of contact email \\ phone",
+                    "type": "string",
+                    "example": "work"
                   },
                   "parentId": {
                     "description": "Contact's parent id",
                     "type": "string",
                     "example": "65e4decdd286b30065d54af9"
-                  },
-                  "photo": {
-                    "description": "Contact's photo",
-                    "type": "string",
-                    "format": "binary"
                   }
                 }
               }
@@ -401,33 +344,23 @@
                     "type": "string",
                     "example": "John Doe"
                   },
-                  "age": {
-                    "type": "number",
-                    "example": 14
-                  },
-                  "gender": {
+                  "phoneNumber": {
                     "type": "string",
-                    "enum": [
-                      "male",
-                      "female",
-                      "other"
+                    "example": "+370563876351"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "apachegender@gmail.com"
+                  },
+                  "isFavourite": {
+                    "type": "boolean"
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "example": [
+                      "work, 'personal",
+                      "home"
                     ]
-                  },
-                  "avgMark": {
-                    "type": "number",
-                    "example": 8.5
-                  },
-                  "onDuty": {
-                    "type": "boolean",
-                    "example": true
-                  },
-                  "parentId": {
-                    "type": "string",
-                    "example": "65e4decdd286b30065d54af9"
-                  },
-                  "photo": {
-                    "type": "string",
-                    "format": "binary"
                   }
                 }
               }
@@ -495,34 +428,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Successfully deleted contact",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status",
-                    "message",
-                    "data"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 200
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Successfully deleted contact with id 65ca67e7ae7f10c88b598384!"
-                    },
-                    "data": {
-                      "type": "object",
-                      "example": {}
-                    }
-                  }
-                }
-              }
-            }
+          "204": {
+            "description": "Successfully deleted contact"
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -545,52 +452,37 @@
       "contact": {
         "type": "object",
         "required": [
-          "_id",
           "name",
-          "age",
-          "gender",
-          "avgMark",
-          "onDuty"
+          "phoneNumber",
+          "contactType"
         ],
         "properties": {
-          "_id": {
-            "description": "Contact's id",
-            "type": "string",
-            "example": "65e4decdd286b30065d54af9"
-          },
           "name": {
             "description": "Contact's name",
             "type": "string",
             "example": "John Doe"
           },
-          "age": {
-            "description": "Contact's age",
-            "type": "number",
-            "example": 12
+          "phoneNumber": {
+            "description": "Phone number",
+            "type": "string",
+            "example": "+380558471638"
           },
-          "gender": {
-            "description": "Contact's age",
+          "email": {
+            "description": "Contacts email",
+            "type": "string",
+            "example": "invoker@gmail.com"
+          },
+          "isFavourite": {
+            "type": "boolean"
+          },
+          "contactType": {
+            "description": "Type of contacts messenger",
             "type": "string",
             "enum": [
-              "male",
-              "female",
-              "other"
+              "work",
+              "home",
+              "personal"
             ]
-          },
-          "avgMark": {
-            "description": "Contact's average mark. Should be between 1 and 12",
-            "type": "number",
-            "example": 9.7
-          },
-          "onDuty": {
-            "description": "Whether is student on duty",
-            "type": "boolean",
-            "example": false
-          },
-          "parentId": {
-            "description": "Contact's parent id",
-            "type": "string",
-            "example": "65e4decdd286b30065d54af9"
           },
           "photo": {
             "description": "Link to contact's photo",
