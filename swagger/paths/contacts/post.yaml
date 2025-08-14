@@ -35,10 +35,10 @@ requestBody:
             description: 'Type of contact email \ phone'
             type: string
             example: 'work'
-          parentId:
-            description: "Contact's parent id"
+          photo:
+            description: "Contact's photo"
             type: string
-            example: 65e4decdd286b30065d54af9
+            format: binary
 responses:
   '201':
     description: Creates a contact
